@@ -1,5 +1,18 @@
+/**
+ * @file   Header.cpp
+ * @brief
+ *
+ * @date   2022-11-29
+ */
+
 #include "Header.hpp"
 
+ /**
+  * @brief .
+  *
+  * @param path
+  * @param files
+  */
 void get_file(std::string path, std::vector<std::string>& files)
 {
 	intptr_t hFile = 0;
@@ -26,6 +39,12 @@ void get_file(std::string path, std::vector<std::string>& files)
 	}
 }
 
+/**
+ * @brief .
+ *
+ * @param str
+ * @return
+ */
 string utf2str(const std::string& str)
 {
 	int nwLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
@@ -53,7 +72,15 @@ string utf2str(const std::string& str)
 	return retStr;
 }
 
-vector<cell_reference> find_str(worksheet& ws, string str, int mode)
+/**
+ * @brief .
+ *
+ * @param ws
+ * @param str
+ * @param mode
+ * @return
+ */
+vector<cell_reference> find_ws_str(worksheet& ws, string str, int mode)
 {
 	vector<cell_reference> c;
 	string temp_str = "";

@@ -1,3 +1,10 @@
+/**
+ * @file   Header.hpp
+ * @brief
+ *
+ * @date   2022-11-29
+ */
+
 #pragma once
 
 #include <iostream>
@@ -21,4 +28,4 @@ void get_file(std::string path, std::vector<std::string>& files);
 
 string utf2str(const std::string& str);
 
-vector<cell_reference> find_str(worksheet& ws, string str, int mode);
+vector<cell_reference> find_ws_str(worksheet& ws, string str, int mode);
