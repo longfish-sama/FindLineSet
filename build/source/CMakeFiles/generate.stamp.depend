@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+D:/Program Files/CMake/share/cmake-3.25/Modules/BasicConfigVersion-ExactVersion.cmake.in
+D:/Program Files/CMake/share/cmake-3.25/Modules/CMakePackageConfigHelpers.cmake
+D:/Program Files/CMake/share/cmake-3.25/Modules/GNUInstallDirs.cmake
+D:/Program Files/CMake/share/cmake-3.25/Modules/WriteBasicConfigVersionFile.cmake
+D:/chend/Documents/code/xlnt-1.5.0/cmake/XlntConfig.cmake.in
+D:/chend/Documents/code/xlnt-1.5.0/cmake/cmake_uninstall.cmake.in
+D:/chend/Documents/code/xlnt-1.5.0/source/CMakeLists.txt

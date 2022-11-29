@@ -1,0 +1,17 @@
+D:/chend/Documents/code/2/build/CMakeFiles/RUN_TESTS.dir
+D:/chend/Documents/code/2/build/CMakeFiles/INSTALL.dir
+D:/chend/Documents/code/2/build/CMakeFiles/ALL_BUILD.dir
+D:/chend/Documents/code/2/build/CMakeFiles/ZERO_CHECK.dir
+D:/chend/Documents/code/2/build/tests/CMakeFiles/xlnt.test.dir
+D:/chend/Documents/code/2/build/tests/CMakeFiles/RUN_TESTS.dir
+D:/chend/Documents/code/2/build/tests/CMakeFiles/INSTALL.dir
+D:/chend/Documents/code/2/build/tests/CMakeFiles/ALL_BUILD.dir
+D:/chend/Documents/code/2/build/source/CMakeFiles/xlnt.dir
+D:/chend/Documents/code/2/build/source/CMakeFiles/uninstall.dir
+D:/chend/Documents/code/2/build/source/CMakeFiles/RUN_TESTS.dir
+D:/chend/Documents/code/2/build/source/CMakeFiles/INSTALL.dir
+D:/chend/Documents/code/2/build/source/CMakeFiles/ALL_BUILD.dir
+D:/chend/Documents/code/2/build/source/third-party/libstudxml/CMakeFiles/libstudxml.dir
+D:/chend/Documents/code/2/build/source/third-party/libstudxml/CMakeFiles/RUN_TESTS.dir
+D:/chend/Documents/code/2/build/source/third-party/libstudxml/CMakeFiles/INSTALL.dir
+D:/chend/Documents/code/2/build/source/third-party/libstudxml/CMakeFiles/ALL_BUILD.dir

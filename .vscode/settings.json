@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "*.m": "matlab",
+        "iostream": "cpp",
+        "xstring": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "system_error": "cpp",
+        "vector": "cpp"
+    },
+    "cSpell.words": [
+        "xlnt"
+    ],
+}

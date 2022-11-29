@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{74C6D1FD-7445-34FF-A25E-7ECC3AC5657A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>xlnt</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\chend\Documents\code\2\build\source\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xlnt.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">xlntd</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\chend\Documents\code\2\build\source\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xlnt.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">xlnt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\chend\Documents\code\2\build\source\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">xlnt.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">xlnt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\chend\Documents\code\2\build\source\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">xlnt.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">xlnt</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4068</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR="Debug";xlnt_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR=\"Debug\";xlnt_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/chend/Documents/code/2/build/source/Debug/xlntd.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/chend/Documents/code/2/build/source/Debug/xlntd.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4251;4275;4068</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR="Release";xlnt_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR=\"Release\";xlnt_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/chend/Documents/code/2/build/source/Release/xlnt.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/chend/Documents/code/2/build/source/Release/xlnt.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4251;4275;4068</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR="MinSizeRel";xlnt_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR=\"MinSizeRel\";xlnt_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/chend/Documents/code/2/build/source/MinSizeRel/xlnt.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/chend/Documents/code/2/build/source/MinSizeRel/xlnt.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275;4068</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR="RelWithDebInfo";xlnt_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;XLNT_SHARED=1;_CRT_SECURE_NO_WARNINGS=1;XLNT_EXPORT=1;CMAKE_INTDIR=\"RelWithDebInfo\";xlnt_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\chend\Documents\code\xlnt-1.5.0\source\..\include;D:\chend\Documents\code\xlnt-1.5.0\source\..\source;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\libstudxml;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\miniz;D:\chend\Documents\code\xlnt-1.5.0\source\..\source\..\third-party\utfcpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/chend/Documents/code/2/build/source/RelWithDebInfo/xlnt.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/chend/Documents/code/2/build/source/RelWithDebInfo/xlnt.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\chend\Documents\code\xlnt-1.5.0\source\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/chend/Documents/code/xlnt-1.5.0/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/chend/Documents/code/xlnt-1.5.0 -BD:/chend/Documents/code/2/build --check-stamp-file D:/chend/Documents/code/2/build/source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-ExactVersion.cmake.in;D:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\chend\Documents\code\xlnt-1.5.0\cmake\XlntConfig.cmake.in;D:\chend\Documents\code\xlnt-1.5.0\cmake\cmake_uninstall.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\chend\Documents\code\2\build\source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/chend/Documents/code/xlnt-1.5.0/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/chend/Documents/code/xlnt-1.5.0 -BD:/chend/Documents/code/2/build --check-stamp-file D:/chend/Documents/code/2/build/source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-ExactVersion.cmake.in;D:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\chend\Documents\code\xlnt-1.5.0\cmake\XlntConfig.cmake.in;D:\chend\Documents\code\xlnt-1.5.0\cmake\cmake_uninstall.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\chend\Documents\code\2\build\source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/chend/Documents/code/xlnt-1.5.0/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/chend/Documents/code/xlnt-1.5.0 -BD:/chend/Documents/code/2/build --check-stamp-file D:/chend/Documents/code/2/build/source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-ExactVersion.cmake.in;D:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\chend\Documents\code\xlnt-1.5.0\cmake\XlntConfig.cmake.in;D:\chend\Documents\code\xlnt-1.5.0\cmake\cmake_uninstall.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\chend\Documents\code\2\build\source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/chend/Documents/code/xlnt-1.5.0/source/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"D:\Program Files\CMake\bin\cmake.exe" -SD:/chend/Documents/code/xlnt-1.5.0 -BD:/chend/Documents/code/2/build --check-stamp-file D:/chend/Documents/code/2/build/source/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Program Files\CMake\share\cmake-3.25\Modules\BasicConfigVersion-ExactVersion.cmake.in;D:\Program Files\CMake\share\cmake-3.25\Modules\CMakePackageConfigHelpers.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\GNUInstallDirs.cmake;D:\Program Files\CMake\share\cmake-3.25\Modules\WriteBasicConfigVersionFile.cmake;D:\chend\Documents\code\xlnt-1.5.0\cmake\XlntConfig.cmake.in;D:\chend\Documents\code\xlnt-1.5.0\cmake\cmake_uninstall.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\chend\Documents\code\2\build\source\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\xlnt.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\xlnt_config.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\cell.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\cell_reference.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\cell_type.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\comment.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\hyperlink.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\index_types.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\phonetic_run.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\rich_text.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\cell\rich_text_run.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\drawing\spreadsheet_drawing.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\packaging\ext_list.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\packaging\manifest.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\packaging\relationship.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\packaging\uri.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\alignment.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\border.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\color.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\conditional_format.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\fill.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\font.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\format.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\number_format.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\protection.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\styles\style.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\calendar.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\date.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\datetime.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\exceptions.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\numeric.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\optional.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\path.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\scoped_enum_hash.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\time.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\timedelta.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\utils\variant.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\calculation_properties.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\document_security.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\external_book.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\metadata_property.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\named_range.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\streaming_workbook_reader.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\streaming_workbook_writer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\theme.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\workbook.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\workbook_view.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\workbook\worksheet_iterator.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\cell_iterator.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\cell_vector.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\column_properties.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\header_footer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\major_order.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\page_margins.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\page_setup.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\pane.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\phonetic_pr.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\print_options.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\range.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\range_iterator.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\range_reference.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\row_properties.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\selection.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\sheet_format_properties.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\sheet_pr.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\sheet_protection.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\sheet_view.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\include\xlnt\worksheet\worksheet.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\binary.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\constants.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\default_case.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\unicode.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\aes.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\base64.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\cipher.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\compound_document.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\encryption_info.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\hash.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\sha.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\value_traits.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\xlsx_crypto_consumer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\xlsx_crypto_producer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\external\include_libstudxml.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\external\include_windows.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\header_footer\header_footer_code.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\cell_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\conditional_format_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\format_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\formatting_record.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\hyperlink_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\style_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\stylesheet.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\workbook_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\worksheet_impl.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\number_format\number_formatter.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\custom_value_traits.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\excel_thumbnail.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\open_stream.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\vector_streambuf.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\xlsx_consumer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\xlsx_producer.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\zstream.hpp" />
+    <ClInclude Include="D:\chend\Documents\code\xlnt-1.5.0\third-party\miniz\miniz.h" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\cell.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\cell_reference.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\comment.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\hyperlink.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\index_types.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\phonetic_run.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\rich_text.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\cell\rich_text_run.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\drawing\spreadsheet_drawing.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\packaging\ext_list.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\packaging\manifest.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\packaging\relationship.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\packaging\uri.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\alignment.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\border.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\color.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\conditional_format.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\fill.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\font.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\format.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\number_format.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\protection.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\styles\style.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\date.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\datetime.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\exceptions.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\path.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\time.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\timedelta.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\utils\variant.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\workbook\named_range.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\workbook\streaming_workbook_reader.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\workbook\streaming_workbook_writer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\workbook\workbook.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\workbook\worksheet_iterator.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\cell_iterator.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\cell_vector.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\header_footer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\page_margins.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\page_setup.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\phonetic_pr.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\range.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\range_iterator.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\range_reference.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\sheet_protection.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\worksheet\worksheet.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\constants.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\unicode.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\aes.cpp">
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\base64.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\compound_document.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\encryption_info.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\hash.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\sha.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\sha1.c" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\sha512.c" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\xlsx_crypto_consumer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\cryptography\xlsx_crypto_producer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\header_footer\header_footer_code.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\implementations\cell_impl.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\number_format\number_formatter.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\custom_value_traits.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\open_stream.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\vector_streambuf.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\xlsx_consumer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\xlsx_producer.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\source\detail\serialization\zstream.cpp" />
+    <ClCompile Include="D:\chend\Documents\code\xlnt-1.5.0\third-party\miniz\miniz.c" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\parser.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\qname.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\serializer.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\value-traits.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\char-props.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\genx.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\xmlparse.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\xmlrole.obj" />
+    <Object Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.dir\$(Configuration)\xmltok.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\chend\Documents\code\2\build\ZERO_CHECK.vcxproj">
+      <Project>{F4BFAD23-EA94-3493-B90D-5FC782EEEA2C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\chend\Documents\code\2\build\source\third-party\libstudxml\libstudxml.vcxproj">
+      <Project>{9A84AC83-2579-3405-A1FA-C8CBF65B8E4D}</Project>
+      <Name>libstudxml</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
