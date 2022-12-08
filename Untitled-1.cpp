@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file   Untitled-1.cpp
  * @brief
  *
@@ -10,22 +10,48 @@
 using namespace std;
 using namespace xlnt;
 
-int main()
+void test()
 {
+	vector<string> filelist;
+	get_folder_file("data", filelist);
+
+	//copy_folder("D:/chend/OneDrive/工/202211培训/04-线架", "data");
+
 	workbook wb;
-	wb.load("data/E413-36.xlsx");
-	auto ws = wb.active_sheet();
-	vector<cell_reference> res = find_cell(ws, "����", 0);
+	worksheet ws;
+	try
+	{
+		vector<string>f = find_filename(filelist, "E418-R1");
+		cout << f.at(0) << endl;
+		wb.load(f.at(0));
+		ws = wb.active_sheet();
+	}
+	catch (const xlnt::exception& exp)
+	{
+		cerr << exp.what() << endl;
+		exit(-1);
+	}
+
+
+	vector<cell_reference> res = find_cell(ws, "西岭", FIND_CELL_PART_MATCH);
 	for (size_t i = 0; i < res.size(); i++)
 	{
 		cout << utf2str(ws.cell(res[i]).to_string()) << endl;
 	}
-	vector<string> filelist;
-	get_folder_file("data", filelist);
 	cout << ws.cell("D36").to_string() << endl;
 
-	node_code code("e418-y3-1");
+	node_code code("e431-1-25");
 	cout << code.get_code() << endl;
+	if (code.is_empty())return;
 	node n(code, filelist);
+
+	get_node_list(code, filelist);
+
+}
+
+int main()
+{
+
+	test();
 	system("pause");
 }

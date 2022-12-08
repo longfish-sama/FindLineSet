@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @file   Header.cpp
  * @brief
  *
@@ -39,6 +39,71 @@ void get_folder_file(string folder, vector<string>& files)
 	}
 }
 
+void copy_folder(string source_folder, string dest_folder)
+{
+	if (_access(dest_folder.c_str(), 0) != 0 && _mkdir(dest_folder.c_str()) != 0)
+	{
+		return;
+	}
+
+	vector<string> source_files, dest_files;
+	get_folder_file(source_folder, source_files);
+	dest_files = source_files;
+	for (auto& item : dest_files)
+	{
+		if (item.find(".xlsx") != string::npos && item.find("旧") == string::npos && item.find("副本") == string::npos)
+		{
+			string tmp = "";
+			for (auto c : item)
+			{
+				if (c == '/' || c == ':')
+				{
+					c = '-';
+				}
+				if (c >= 0 && c <= 127)
+				{
+					tmp = tmp + c;
+				}
+			}
+			item = dest_folder + "/" + tmp + ".zip";
+		}
+		else
+		{
+			item.clear();
+		}
+#ifdef TEST
+		cout << INFO + item << endl;
+#endif
+	}
+
+	for (size_t i = 0; i < dest_files.size(); i++)
+	{
+		if (!dest_files.at(i).empty())
+		{
+			ifstream infile(source_files[i], ios::in | ios::binary);
+			if (!infile.is_open() || infile.bad() || infile.fail())
+			{
+				cout << WARNING + source_files[i] + " fail to open" << endl;
+				infile.close();
+				continue;
+			}
+			ofstream outfile(dest_files[i], ios::out | ios::binary);
+			if (!outfile.is_open() || outfile.bad() || outfile.fail())
+			{
+				cout << WARNING + dest_files[i] + " fail to open" << endl;
+				infile.close();
+				outfile.close();
+				continue;
+			}
+			outfile << infile.rdbuf();
+			outfile.close();
+			infile.close();
+		}
+	}
+
+	return;
+}
+
 /**
  * @brief .
  *
@@ -47,27 +112,27 @@ void get_folder_file(string folder, vector<string>& files)
  */
 string utf2str(const string& str)
 {
-	int nwLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+	int nwLen = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
 
-	wchar_t* pwBuf = new wchar_t[nwLen + 1];
+	auto* pwBuf = new wchar_t[nwLen + 1];
 	memset(pwBuf, 0, nwLen * 2 + 2);
 
 	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), str.length(), pwBuf, nwLen);
 
-	int nLen = WideCharToMultiByte(CP_ACP, 0, pwBuf, -1, NULL, NULL, NULL, NULL);
+	int nLen = WideCharToMultiByte(CP_ACP, 0, pwBuf, -1, nullptr, NULL, nullptr, nullptr);
 
-	char* pBuf = new char[nLen + 1];
+	auto* pBuf = new char[nLen + 1];
 	memset(pBuf, 0, nLen + 1);
 
-	WideCharToMultiByte(CP_ACP, 0, pwBuf, nwLen, pBuf, nLen, NULL, NULL);
+	WideCharToMultiByte(CP_ACP, 0, pwBuf, nwLen, pBuf, nLen, nullptr, nullptr);
 
 	string retStr = pBuf;
 
 	delete[] pBuf;
 	delete[] pwBuf;
 
-	pBuf = NULL;
-	pwBuf = NULL;
+	pBuf = nullptr;
+	pwBuf = nullptr;
 
 	return retStr;
 }
@@ -80,28 +145,89 @@ string utf2str(const string& str)
  * @param mode
  * @return
  */
-vector<cell_reference> find_cell(worksheet& ws, string str, int mode = 0)
+vector<cell_reference> find_cell(worksheet& ws, string str, MODE mode = FIND_CELL_PART_MATCH)
 {
-	vector<cell_reference> c;
-	string temp_str = "";
+	vector<cell_reference> cr;
+	string tmp = "";
 
-	for (auto row : ws.rows(false))
+	switch (mode)
 	{
-		for (auto cell : row)
+
+	case FIND_CELL_PART_MATCH:
+		for (auto row : ws.rows(false))
 		{
-			temp_str = utf2str(cell.to_string());
-			if (temp_str.find(str) != string::npos)
+			for (auto cell : row)
 			{
-				c.push_back(cell.reference());
+				tmp = utf2str(cell.to_string());
+				if (tmp.find(str) != string::npos)
+				{
+					cr.push_back(cell.reference());
+				}
 			}
 		}
+		break;
+
+	case FIND_CELL_ALL_MATCH:
+		for (auto row : ws.rows(false))
+		{
+			for (auto cell : row)
+			{
+				tmp = utf2str(cell.to_string());
+				if (tmp == str)
+				{
+					cr.push_back(cell.reference());
+				}
+			}
+		}
+		break;
+
+	default:
+		break;
 	}
-	return c;
+
+	return cr;
 }
 
-vector<cell_reference> find_cell(worksheet& ws, range_reference& range, string str, int mode = 0)
+vector<cell_reference> find_cell(worksheet& ws, range_reference& rg, string str, MODE mode = FIND_CELL_PART_MATCH)
 {
-	return vector<cell_reference>();
+	vector<cell_reference> cr;
+	string tmp;
+
+	switch (mode)
+	{
+	case FIND_CELL_PART_MATCH:
+		for (row_t row = rg.top_left().row(); row <= rg.bottom_right().row(); row++)
+		{
+			for (column_t col = rg.top_left().column(); col <= rg.bottom_right().column(); col++)
+			{
+				tmp = utf2str(ws.cell(col, row).to_string());
+				if (tmp.find(str) != string::npos)
+				{
+					cr.push_back(ws.cell(col, row).reference());
+				}
+			}
+		}
+		break;
+
+	case FIND_CELL_ALL_MATCH:
+		for (row_t row = rg.top_left().row(); row <= rg.bottom_right().row(); row++)
+		{
+			for (column_t col = rg.top_left().column(); col <= rg.bottom_right().column(); col++)
+			{
+				tmp = utf2str(ws.cell(col, row).to_string());
+				if (tmp == str)
+				{
+					cr.push_back(ws.cell(col, row).reference());
+				}
+			}
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	return cr;
 }
 
 vector<string> find_filename(vector<string>& filename_list, string str)
@@ -109,12 +235,50 @@ vector<string> find_filename(vector<string>& filename_list, string str)
 	vector<string> res;
 	for (size_t i = 0; i < filename_list.size(); i++)
 	{
-		if (filename_list[i].find(str) != string::npos)
+		if (filename_list[i].find(str) != string::npos && filename_list[i].find("~$") == string::npos)
 		{
 			res.push_back(filename_list[i]);
 		}
 	}
 	return res;
+}
+
+list<node> get_node_list(node_code& code, vector<string>& file_dir_list)
+{
+	if (code.is_empty())
+	{
+		return list<node>();
+	}
+	else
+	{
+		list<node> ret;
+		node n0(code, file_dir_list);
+		node n1 = n0;
+		ret.push_back(n0);
+
+		while (n0.has_up_code())
+		{
+			node n_up(n0.get_up_code(), file_dir_list);
+			ret.push_front(n_up);
+			if (n_up.get_up_code() == n0.get_cur_code())
+			{
+				n_up.swap_up_down();
+			}
+			n0 = n_up;
+		}
+
+		while (n1.has_down_code())
+		{
+			node n_down(n1.get_down_code(), file_dir_list);
+			ret.push_back(n_down);
+			if (n_down.get_down_code() == n1.get_cur_code())
+			{
+				n_down.swap_up_down();
+			}
+			n1 = n_down;
+		}
+		return ret;
+	}
 }
 
 node_code::node_code(string code)
@@ -138,9 +302,6 @@ node_code::node_code(string code)
 	}
 }
 
-node_code::~node_code()
-{
-}
 
 void node_code::set_code(string set_loc, string set_number)
 {
@@ -152,7 +313,7 @@ void node_code::set_code(string set_loc, string set_number)
 	}
 }
 
-string node_code::get_code()
+string node_code::get_code() const
 {
 	if (loc.empty() || number.empty())
 	{
@@ -164,9 +325,38 @@ string node_code::get_code()
 	}
 }
 
-node::node(node_code code, vector<string>& file_list)
+int node_code::get_row_idx() const
 {
-	vector<string> file_dir = find_filename(file_list, code.get_loc());
+	int tmp = atoi(number.c_str());
+	if (tmp % 10 == 0)
+	{
+		return tmp / 10;
+	}
+	else
+	{
+		return tmp / 10 + 1;
+	}
+}
+
+int node_code::get_col_idx() const
+{
+	int tmp = atoi(number.c_str());
+	if (tmp % 10 == 0)
+	{
+		return 10;
+	}
+	else
+	{
+		return tmp % 10;
+	}
+
+}
+
+
+node::node(node_code& code, vector<string>& file_dir_list)
+{
+	//use node code to find file path
+	vector<string> file_dir = find_filename(file_dir_list, code.get_loc());
 	if (file_dir.empty() || file_dir.size() > 1)
 	{
 		cout << "multi or none file find: " << code.get_loc() << endl;
@@ -174,23 +364,107 @@ node::node(node_code code, vector<string>& file_list)
 		{
 			cout << file_dir[i] << endl;
 		}
+		throw CLASS_NODE_CONSTRUCT_ERROR;
 	}
+	//open file
 	workbook wb;
-	wb.load(file_dir[0]);
-	worksheet ws = wb.active_sheet();
-
-	range_reference rg_col(1, 1, 1, ws.highest_row_or_props());
-	vector<cell_reference> cr_col = find_cell(ws, rg_col, to_string(code.get_tens_digit() + 1));
-	if (cr_col.empty() || cr_col.size() > 1)
+	try
 	{
-		cout << "multi or none cell find: " << code.get_tens_digit() + 1 << endl;
+		wb.load(file_dir[0]);//fixme: range error
+	}
+	catch (const xlnt::exception& exp)
+	{
+		cerr << exp.what() << endl;
+	}
+	auto ws = wb.active_sheet();
+	auto rg_merged = ws.merged_ranges();
+
+	//find row index in first column
+	range_reference rg_col(1, 2, 1, ws.highest_row_or_props());
+	vector<cell_reference> row_idx = find_cell(ws, rg_col, to_string(code.get_row_idx()), FIND_CELL_ALL_MATCH);
+	vector<cell_reference> row_idx_next = find_cell(ws, rg_col, to_string(code.get_row_idx() + 1), FIND_CELL_ALL_MATCH);
+	if (row_idx.empty() || row_idx.size() > 1)
+	{
+		cout << "multi or none cell find: " << code.get_row_idx() << endl;
 	}
 
-	range_reference rg_row(cr_col[0].column_index(), cr_col[0].row(), ws.highest_column_or_props(), cr_col[0].row());
-	vector<cell_reference> cr_row = find_cell(ws, rg_row, to_string(code.get_units_digits()));
-	if (cr_row.empty() || cr_row.size() > 1)
+	//find column index in selected row
+	range_reference rg_row(row_idx[0].column_index(), row_idx[0].row(), ws.highest_column_or_props(), row_idx[0].row());
+	vector<cell_reference> col_idx = find_cell(ws, rg_row, to_string(code.get_col_idx()), FIND_CELL_ALL_MATCH);
+	if (col_idx.empty() || col_idx.size() > 1)
 	{
-		cout << "multi or none cell find: " << code.get_tens_digit() + 1 << endl;
+		cout << "multi or none cell find: " << code.get_col_idx() << endl;
 	}
-	style s = ws.cell(cr_row[0]).style();
+
+	//get node info
+	row_t rw = col_idx[0].row() + 1;
+	column_t cl = col_idx[0].column();
+	string tmp = "";
+	while (rw <= ws.highest_row() && (row_idx_next.empty() ? true : rw <= row_idx_next[0].row()))
+	{
+		tmp = utf2str(ws.cell(2, rw).to_string());
+
+		if (tmp == "号")
+		{
+			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			for_each(value.begin(), value.end(), [](char& c) {
+				if (c == '\n') { c = '+'; }});
+			node::cur_name = value;
+		}
+		else if (tmp == "上")
+		{
+			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			for_each(value.begin(), value.end(), [](char& c) {
+				if (c == '\n') { c = '+'; }});
+			node::up_name = value;
+			node::up_code = node_code(node::up_name);
+		}
+		else if (tmp == "下")
+		{
+			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			for_each(value.begin(), value.end(), [](char& c) {
+				if (c == '\n') { c = '+'; }});
+			node::down_name = value;
+			node::down_code = node_code(node::down_name);
+		}
+		else if (tmp == "注")
+		{
+			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			for_each(value.begin(), value.end(), [](char& c) {
+				if (c == '\n') { c = '+'; }});
+			node::comment = value;
+		}
+
+		rw++;
+	}
+	node::workbook_name = file_dir[0];
+	node::worksheet_name = ws.title();
+	node::cur_code = code;
+}
+
+void node::swap_up_down()
+{
+	swap(up_code, down_code);
+	swap(up_name, down_name);
+}
+
+string node::get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, column_t& col, row_t& row) const
+{
+	if (ws.cell(col, row).is_merged() && (!ws.cell(col, row).has_value()))
+	{
+		for (size_t i = 0; i < rg_merged.size(); i++)
+		{
+			if (rg_merged.at(i).top_left().column() <= col && col <= rg_merged.at(i).top_right().column() &&
+				rg_merged.at(i).top_left().row() <= row && row <= rg_merged.at(i).bottom_left().row())
+			{
+				return utf2str(ws.cell(rg_merged.at(i).top_left()).to_string());
+			}
+		}
+	}
+	else
+	{
+		return utf2str(ws.cell(col, row).to_string());
+	}
+
+	return "";
 }
