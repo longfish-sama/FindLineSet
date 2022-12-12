@@ -33,19 +33,20 @@ void test()
 	}
 
 
-	vector<cell_reference> res = find_cell(ws, "西岭", FIND_CELL_PART_MATCH);
+	vector<cell_reference> res = find_cell(ws, "西岭", MODE::FIND_CELL_PART_MATCH);
 	for (size_t i = 0; i < res.size(); i++)
 	{
 		cout << utf2str(ws.cell(res[i]).to_string()) << endl;
 	}
 	cout << ws.cell("D36").to_string() << endl;
 
-	node_code code("e431-1-25");
+	node_code code("e418-r1-44");
 	cout << code.get_code() << endl;
 	if (code.is_empty())return;
 	node n(code, filelist);
 
-	get_node_list(code, filelist);
+	list<node> l = get_node_list(code, filelist);
+	cout << list2str(l) << endl;
 
 }
 

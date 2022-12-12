@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\chend\Documents\code\clipp-1.2.3\include;D:\chend\Documents\code\xlnt-1.5.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\chend\Documents\code\clipp-1.2.3\include;D:\chend\Documents\code\xlnt-1.5.0\include;D:\chend\Documents\code\hash-library-hash_library_v8;$(IncludePath)</IncludePath>
     <LibraryPath>D:\chend\Documents\code\2\build\source\Debug;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

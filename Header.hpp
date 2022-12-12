@@ -24,19 +24,21 @@
 #include <list>
 #include <xlnt/xlnt.hpp>
 #include <direct.h>
+#include "md5.h"
 
 using namespace std;
 using namespace xlnt;
 
-enum MODE
+enum class MODE
 {
 	FIND_CELL_ALL_MATCH,
 	FIND_CELL_PART_MATCH
 };
 
-enum ERROR_TYPE
+enum class MY_ERROR_TYPE
 {
-	CLASS_NODE_CONSTRUCT_ERROR
+	CLASS_NODE_CONSTRUCT_ERROR,
+	CLASS_NODE_CODE_CONSTRUCT_ERROR
 };
 
 class node_code
@@ -52,7 +54,7 @@ public:
 	int get_row_idx() const;
 	int get_col_idx() const;
 	bool is_empty() const { return (loc.empty() || number.empty()) ? true : false; }
-	bool operator==(const node_code& other) { return (this->loc == other.loc) && (this->number == other.number); }
+	bool operator==(const node_code& other) const { return (this->loc == other.loc) && (this->number == other.number); }
 private:
 	string loc;
 	string number;
@@ -64,14 +66,15 @@ public:
 	node();
 	node(node_code& code, vector<string>& file_dir_list);
 	~node() = default;
-	bool has_up_code() { return up_code.is_empty() ? false : true; }
-	bool has_down_code() { return down_code.is_empty() ? false : true; }
+	bool has_up_code();
+	bool has_down_code();
 	node_code& get_cur_code() { return cur_code; }
-	node_code& get_up_code() { return up_code; }
-	node_code& get_down_code() { return down_code; }
-	string get_cur_name() { return cur_name; }
-	string get_up_name() { return up_name; }
-	string get_down_name() { return down_name; }
+	vector<node_code>& get_up_code() { return up_code; }
+	vector<node_code>& get_down_code() { return down_code; }
+	string get_cur_name() const { return cur_name; }
+	vector<string> get_up_name() const { return up_name; }
+	vector<string> get_down_name() const { return down_name; }
+	string get_comment() { return comment; }
 	void swap_up_down();
 private:
 	string get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, column_t& col, row_t& row) const;
@@ -79,16 +82,19 @@ private:
 	string worksheet_name;
 	string cur_name;
 	node_code cur_code;
-	string up_name;
-	node_code up_code;
-	string down_name;
-	node_code down_code;
+	vector<string> up_name;
+	vector<node_code> up_code;
+	vector<string> down_name;
+	vector<node_code> down_code;
 	string comment;
+	string mod_date;
 };
 
 void get_folder_file(string path, vector<string>& files);
 
 void copy_folder(string source, string dest);
+
+bool is_node_code(string& str);
 
 string utf2str(const string& str);
 
@@ -99,3 +105,5 @@ vector<cell_reference> find_cell(worksheet& ws, range_reference& range, string s
 vector<string> find_filename(vector<string>& filename_list, string str);
 
 list<node> get_node_list(node_code& code, vector<string>& file_dir_list);
+
+string list2str(list<node>& node_list);
