@@ -330,14 +330,9 @@ vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
 		list<node> tmp = get_single_node_list(codes_unused.front(), files_list); //remember to pop front
 		codes_used.push_back(codes_unused.front()); //remember to pop front
 
-		bool is_unique_list = true;
-		for (auto const& val : ret)
-		{
-			if (tmp == val)
-			{
-				is_unique_list = false;
-			}
-		}
+		bool is_unique_list = none_of(ret.begin(), ret.end(), [&tmp](auto& val) {
+			return tmp == val;
+			});
 		if (is_unique_list)
 		{
 			ret.push_back(tmp);
@@ -346,23 +341,18 @@ vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
 			{
 				if (val.get_down_code().size() > 1) //find a node with multi down code
 				{
-					for (auto val1 : val.get_down_code()) //traverse down code
+					for (auto val1 : val.get_down_code()) //traverse node's down code
 					{
 						bool is_unique_code = true; //unused code flag
 						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
 						{
-							is_unique_code = false;
+							is_unique_code = false; //false if code is appeared in current node list
 						}
 						else
 						{
-							for (auto const& val2 : codes_used) //traverse used codes
-							{
-								if (val1 == val2)
-								{
-									is_unique_code = false;
-									break; //found equal then break
-								}
-							}
+							is_unique_code = none_of(codes_used.begin(), codes_used.end(), [&val1](auto& val2) {
+								return val2 == val1;
+								}); //false if code is used
 						}
 						if (is_unique_code)
 						{
@@ -372,23 +362,18 @@ vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
 				}
 				if (val.get_up_code().size() > 1) //find a node with multi up code
 				{
-					for (auto val1 : val.get_up_code()) //traverse up code
+					for (auto val1 : val.get_up_code()) //traverse node's up code
 					{
 						bool is_unique_code = true; //unused code flag
 						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
 						{
-							is_unique_code = false;
+							is_unique_code = false; //false if code is appeared in current node list
 						}
 						else
 						{
-							for (auto const& val2 : codes_used) //traverse used codes
-							{
-								if (val1 == val2)
-								{
-									is_unique_code = false;
-									break; //found equal then break
-								}
-							}
+							is_unique_code = none_of(codes_used.begin(), codes_used.end(), [&val1](auto& val2) {
+								return val2 == val1;
+								}); //false if code is used
 						}
 						if (is_unique_code)
 						{
@@ -419,7 +404,7 @@ bool is_equal_node_list(list<node>& node_list_1, list<node>& node_list_2)
 		vector<node> v2;
 		for (auto const& val : node_list_1)
 		{
-			v1.push_back(val);//convert list to vector
+			v1.push_back(val); //convert list to vector
 		}
 		for (auto const& val : node_list_2)
 		{
@@ -436,15 +421,9 @@ bool is_equal_node_list(list<node>& node_list_1, list<node>& node_list_2)
 
 bool is_found_node_in_node_list(node_code& code, list<node>& node_list)
 {
-	bool ret = false;
-	for (auto node : node_list)
-	{
-		if (code == node.get_cur_code())
-		{
-			ret = true;
-		}
-	}
-	return ret;
+	return any_of(node_list.begin(), node_list.end(), [&code](auto node) {
+		return code == node.get_cur_code();
+		});
 }
 
 /**
@@ -668,26 +647,16 @@ node::node(node_code& code, vector<string>& files_list)
 
 bool node::has_up_code()
 {
-	for (auto val : up_code)
-	{
-		if (!val.is_empty())
-		{
-			return true;
-		}
-	}
-	return false;
+	return any_of(up_code.begin(), up_code.end(), [](auto& val) {
+		return !val.is_empty();
+		});
 }
 
 bool node::has_down_code()
 {
-	for (auto val : down_code)
-	{
-		if (!val.is_empty())
-		{
-			return true;
-		}
-	}
-	return false;
+	return any_of(down_code.begin(), down_code.end(), [](auto& val) {
+		return !val.is_empty();
+		});
 }
 
 void node::swap_up_down()
