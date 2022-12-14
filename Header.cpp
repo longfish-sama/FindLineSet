@@ -73,7 +73,7 @@ void copy_folder(string source_folder, string dest_folder)
 			item.clear();
 		}
 #ifdef TEST
-		cout << INFO + item << endl;
+		cout << INFO_COUT + item << endl;
 #endif
 	}
 
@@ -84,14 +84,14 @@ void copy_folder(string source_folder, string dest_folder)
 			ifstream infile(source_files[i], ios::in | ios::binary);
 			if (!infile.is_open() || infile.bad() || infile.fail())
 			{
-				cout << WARNING + source_files[i] + " fail to open" << endl;
+				cout << WARNING_COUT + source_files[i] + " fail to open" << endl;
 				infile.close();
 				continue;
 			}
 			ofstream outfile(dest_files[i], ios::out | ios::binary);
 			if (!outfile.is_open() || outfile.bad() || outfile.fail())
 			{
-				cout << WARNING + dest_files[i] + " fail to open" << endl;
+				cout << WARNING_COUT + dest_files[i] + " fail to open" << endl;
 				infile.close();
 				outfile.close();
 				continue;
@@ -264,11 +264,11 @@ vector<string> find_filename(vector<string>& filename_list, string str)
 /**
  * @brief .
  *
- * @param code
- * @param file_dir_list
+ * @param code: node code of 1st node object
+ * @param files_list
  * @return
  */
-list<node> get_node_list(node_code& code, vector<string>& file_dir_list)
+list<node> get_single_node_list(node_code& code, vector<string>& files_list)
 {
 	if (code.is_empty())
 	{
@@ -277,16 +277,17 @@ list<node> get_node_list(node_code& code, vector<string>& file_dir_list)
 	else
 	{
 		list<node> ret;
-		node n0(code, file_dir_list);
+		node n0(code, files_list);
 		node n1 = n0;
 		ret.push_back(n0);
 
 		while (n0.has_up_code())
 		{
-			node n_up(n0.get_up_code().at(0), file_dir_list);
+			node n_up(n0.get_up_code().at(0), files_list);
 			ret.push_front(n_up);
-			for (auto val : n_up.get_up_code())
+			for (auto const& val : n_up.get_up_code())
 			{
+
 				if (val == n0.get_cur_code())
 				{
 					n_up.swap_up_down();
@@ -298,9 +299,9 @@ list<node> get_node_list(node_code& code, vector<string>& file_dir_list)
 
 		while (n1.has_down_code())
 		{
-			node n_down(n1.get_down_code().at(0), file_dir_list);
+			node n_down(n1.get_down_code().at(0), files_list);
 			ret.push_back(n_down);
-			for (auto val : n_down.get_down_code())
+			for (auto const& val : n_down.get_down_code())
 			{
 				if (val == n1.get_cur_code())
 				{
@@ -315,26 +316,181 @@ list<node> get_node_list(node_code& code, vector<string>& file_dir_list)
 	}
 }
 
-string list2str(list<node>& node_list)
+vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
+{
+	vector<list<node>> ret;
+	list<node_code> codes_unused;
+	vector<node_code> codes_used;
+	if (!code.is_empty())
+	{
+		codes_unused.push_back(code);
+	}
+	while (!codes_unused.empty())
+	{
+		list<node> tmp = get_single_node_list(codes_unused.front(), files_list); //remember to pop front
+		codes_used.push_back(codes_unused.front()); //remember to pop front
+
+		bool is_unique_list = true;
+		for (auto const& val : ret)
+		{
+			if (tmp == val)
+			{
+				is_unique_list = false;
+			}
+		}
+		if (is_unique_list)
+		{
+			ret.push_back(tmp);
+
+			for (auto val : tmp) //traverse current temp node list to find multi code node
+			{
+				if (val.get_down_code().size() > 1) //find a node with multi down code
+				{
+					for (auto val1 : val.get_down_code()) //traverse down code
+					{
+						bool is_unique_code = true; //unused code flag
+						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
+						{
+							is_unique_code = false;
+						}
+						else
+						{
+							for (auto const& val2 : codes_used) //traverse used codes
+							{
+								if (val1 == val2)
+								{
+									is_unique_code = false;
+									break; //found equal then break
+								}
+							}
+						}
+						if (is_unique_code)
+						{
+							codes_unused.push_back(val1);
+						}
+					}
+				}
+				if (val.get_up_code().size() > 1) //find a node with multi up code
+				{
+					for (auto val1 : val.get_up_code()) //traverse up code
+					{
+						bool is_unique_code = true; //unused code flag
+						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
+						{
+							is_unique_code = false;
+						}
+						else
+						{
+							for (auto const& val2 : codes_used) //traverse used codes
+							{
+								if (val1 == val2)
+								{
+									is_unique_code = false;
+									break; //found equal then break
+								}
+							}
+						}
+						if (is_unique_code)
+						{
+							codes_unused.push_back(val1);
+						}
+					}
+				}
+
+			}
+		}
+
+		codes_unused.pop_front(); //remember to pop front
+	}
+	return ret;
+}
+
+bool is_equal_node_list(list<node>& node_list_1, list<node>& node_list_2)
+{
+	if (node_list_1.size() != node_list_2.size())
+	{
+		return false;
+	}
+	else
+	{
+		bool ret_front = true;
+		bool ret_back = true;
+		vector<node> v1;
+		vector<node> v2;
+		for (auto const& val : node_list_1)
+		{
+			v1.push_back(val);//convert list to vector
+		}
+		for (auto const& val : node_list_2)
+		{
+			v2.push_back(val);
+		}
+		for (size_t i = 0; i < v1.size(); i++)
+		{
+			ret_front = ret_front && (v1.at(i) == v2.at(i));
+			ret_back = ret_back && (v1.at(i) == v2.at(v1.size() - 1 - i));
+		}
+		return ret_front || ret_back;
+	}
+}
+
+bool is_found_node_in_node_list(node_code& code, list<node>& node_list)
+{
+	bool ret = false;
+	for (auto node : node_list)
+	{
+		if (code == node.get_cur_code())
+		{
+			ret = true;
+		}
+	}
+	return ret;
+}
+
+/**
+ * @brief .
+ *
+ * @param node_list
+ * @param mode
+ * @return
+ */
+string list2str(list<node>& node_list, MODE mode = MODE::LIST2STR_BRIEF)
 {
 	string ret = "";
-	for (auto val : node_list)
+	switch (mode)
 	{
-		string up = "";
-		string down = "";
-		for (auto up_str : val.get_up_name())
+	case MODE::LIST2STR_BRIEF:
+		for (auto val : node_list)
 		{
-			up = up + "↑" + up_str + " ";
+			ret = ret + val.get_cur_name() + " | " +
+				val.get_cur_code().get_code() + " | " +
+				val.get_comment() + "\n";
 		}
-		for (auto down_str : val.get_down_name())
+		break;
+
+	case MODE::LIST2STR_DETAIL:
+		for (auto val : node_list)
 		{
-			down = down + "↓" + down_str + " ";
+			string up = "";
+			string down = "";
+			for (auto const& up_str : val.get_up_name())
+			{
+				up = up + "↑" + up_str + " ";
+			}
+			for (auto const& down_str : val.get_down_name())
+			{
+				down = down + "↓" + down_str + " ";
+			}
+			ret = ret + val.get_cur_name() + " | " +
+				val.get_cur_code().get_code() + " | " +
+				val.get_comment() + " | " +
+				up + "| " +
+				down + "\n";
 		}
-		ret = ret + val.get_cur_name() + " | " +
-			val.get_cur_code().get_code() + " | " +
-			val.get_comment() + " | " +
-			up + "| " +
-			down + "\n";
+		break;
+
+	default:
+		break;
 	}
 	return ret;
 }
@@ -347,6 +503,10 @@ node_code::node_code(string code)
 	{
 		loc = code.substr(0, index_2);
 		number = code.substr(index_2 + 1);
+		if (number.back() < 0x30 || number.back() > 0x39)
+		{
+			number = number.substr(0, number.size() - 1);
+		}
 		for (size_t i = 0; i < loc.length(); i++)
 		{
 			loc[i] = toupper(loc[i]);
@@ -472,18 +632,24 @@ node::node(node_code& code, vector<string>& files_list)
 		else if (tmp == "上")
 		{
 			string value = node::get_cell_value(ws, rg_merged, cl, rw);
-			for_each(value.begin(), value.end(), [](char& c) {
-				if (c == '\n') { c = '+'; }});
-			node::up_name.push_back(value);
-			node::up_code.push_back(node_code(value));
+			if (value != "")
+			{
+				for_each(value.begin(), value.end(), [](char& c) {
+					if (c == '\n') { c = '+'; }});
+				node::up_name.push_back(value);
+				node::up_code.push_back(node_code(value));
+			}
 		}
 		else if (tmp == "下")
 		{
 			string value = node::get_cell_value(ws, rg_merged, cl, rw);
-			for_each(value.begin(), value.end(), [](char& c) {
-				if (c == '\n') { c = '+'; }});
-			node::down_name.push_back(value);
-			node::down_code.push_back(node_code(value));
+			if (value != "")
+			{
+				for_each(value.begin(), value.end(), [](char& c) {
+					if (c == '\n') { c = '+'; }});
+				node::down_name.push_back(value);
+				node::down_code.push_back(node_code(value));
+			}
 		}
 		else if (tmp == "注")
 		{
@@ -521,7 +687,6 @@ bool node::has_down_code()
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -551,3 +716,4 @@ string node::get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, c
 
 	return "";
 }
+

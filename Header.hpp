@@ -10,10 +10,6 @@
 
 #define TEST
 
-#define INFO "[info]\t"
-#define WARNING "[warning]\t"
-#define ERROR "[error]\t"
-
 #include <iostream>
 #include <wchar.h>
 #include <Windows.h>
@@ -24,23 +20,37 @@
 #include <list>
 #include <xlnt/xlnt.hpp>
 #include <direct.h>
-#include "md5.h"
 
 using namespace std;
 using namespace xlnt;
 
+constexpr auto INFO_COUT = "[info]\t";
+constexpr auto WARNING_COUT = "[warning]\t";
+constexpr auto ERROR_COUT = "[error]\t";
+
+/**
+ * @brief all mode used in program
+ */
 enum class MODE
 {
 	FIND_CELL_ALL_MATCH,
-	FIND_CELL_PART_MATCH
+	FIND_CELL_PART_MATCH,
+	LIST2STR_BRIEF,
+	LIST2STR_DETAIL
 };
 
+/**
+ * @brief error type definition
+ */
 enum class MY_ERROR_TYPE
 {
 	CLASS_NODE_CONSTRUCT_ERROR,
 	CLASS_NODE_CODE_CONSTRUCT_ERROR
 };
 
+/**
+ * @brief node_code class, code like "Xxxx-xx-xx"
+ */
 class node_code
 {
 public:
@@ -55,11 +65,15 @@ public:
 	int get_col_idx() const;
 	bool is_empty() const { return (loc.empty() || number.empty()) ? true : false; }
 	bool operator==(const node_code& other) const { return (this->loc == other.loc) && (this->number == other.number); }
+	bool operator!=(const node_code& other) { return (this->loc != other.loc) || (this->number != other.number); }
 private:
 	string loc;
 	string number;
 };
 
+/**
+ * .
+ */
 class node
 {
 public:
@@ -73,10 +87,33 @@ public:
 	vector<node_code>& get_down_code() { return down_code; }
 	string get_cur_name() const { return cur_name; }
 	vector<string> get_up_name() const { return up_name; }
+
+	/**
+	 * @return down name in vector<string>
+	 */
 	vector<string> get_down_name() const { return down_name; }
-	string get_comment() { return comment; }
+
+	/**
+	 * @return comment in string
+	 */
+	string get_comment() const { return comment; }
 	void swap_up_down();
+	bool operator==(node const& other) const {
+		return (this->cur_code == other.cur_code) &&
+			(this->cur_name == other.cur_name) &&
+			(this->down_name == other.down_name) &&
+			(this->up_name == other.up_name);
+	}
 private:
+	/**
+	 * @brief .
+	 *
+	 * @param ws
+	 * @param rg_merged
+	 * @param col
+	 * @param row
+	 * @return
+	 */
 	string get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, column_t& col, row_t& row) const;
 	string workbook_name;
 	string worksheet_name;
@@ -104,6 +141,13 @@ vector<cell_reference> find_cell(worksheet& ws, range_reference& range, string s
 
 vector<string> find_filename(vector<string>& filename_list, string str);
 
-list<node> get_node_list(node_code& code, vector<string>& file_dir_list);
+list<node> get_single_node_list(node_code& code, vector<string>& files_list);
 
-string list2str(list<node>& node_list);
+vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list);
+
+bool is_equal_node_list(list<node>& node_list_1, list<node>& node_list_2);
+
+bool is_found_node_in_node_list(node_code& code, list<node>& node_list);
+
+string list2str(list<node>& node_list, MODE mode);
+
