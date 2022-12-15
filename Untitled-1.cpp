@@ -35,7 +35,7 @@ void test()
 	}
 
 
-	vector<cell_reference> res = find_cell(ws, "西岭", MODE::FIND_CELL_PART_MATCH);
+	vector<cell_reference> res = find_cell(ws, "西岭", MODE::FIND_CELL_PART_MATCH,MODE::FIND_CELL_RET_ALL_CELL);
 	for (size_t i = 0; i < res.size(); i++)
 	{
 		cout << utf2str(ws.cell(res[i]).to_string()) << endl;

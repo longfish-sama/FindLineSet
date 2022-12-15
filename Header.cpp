@@ -158,26 +158,48 @@ string utf2str(const string& str)
  *
  * @param ws
  * @param str
- * @param mode
+ * @param find_mode
  * @return
  */
-vector<cell_reference> find_cell(worksheet& ws, string str, MODE mode = MODE::FIND_CELL_PART_MATCH)
+vector<cell_reference> find_cell(worksheet& ws, string str,
+	MODE find_mode = MODE::FIND_CELL_PART_MATCH,
+	MODE return_mode = MODE::FIND_CELL_RET_VALUED_CELL)
 {
 	vector<cell_reference> cr;
-	string tmp = "";
+	string tmp_str = "";
 
-	switch (mode)
+	switch (find_mode)
 	{
-
 	case MODE::FIND_CELL_PART_MATCH:
 		for (auto row : ws.rows(false))
 		{
-			for (auto cell : row)
+			for (auto val : row)
 			{
-				tmp = utf2str(cell.to_string());
-				if (tmp.find(str) != string::npos)
+				tmp_str = utf2str(val.to_string());
+				if (tmp_str.find(str) != string::npos)
 				{
-					cr.push_back(cell.reference());
+					switch (return_mode)
+					{
+					case MODE::FIND_CELL_RET_ALL_CELL:
+						if (val.is_merged())
+						{
+							vector<cell_reference>tmp_cr = get_cells_in_merged_range(ws, val.reference());
+							for (auto cr_val : tmp_cr)
+							{
+								cr.push_back(cr_val);
+							}
+						}
+						else
+						{
+							cr.push_back(val.reference());
+						}
+						break;
+					case MODE::FIND_CELL_RET_VALUED_CELL:
+						cr.push_back(val.reference());
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
@@ -186,12 +208,33 @@ vector<cell_reference> find_cell(worksheet& ws, string str, MODE mode = MODE::FI
 	case MODE::FIND_CELL_ALL_MATCH:
 		for (auto row : ws.rows(false))
 		{
-			for (auto cell : row)
+			for (auto val : row)
 			{
-				tmp = utf2str(cell.to_string());
-				if (tmp == str)
+				tmp_str = utf2str(val.to_string());
+				if (tmp_str == str)
 				{
-					cr.push_back(cell.reference());
+					switch (return_mode)
+					{
+					case MODE::FIND_CELL_RET_ALL_CELL:
+						if (val.is_merged())
+						{
+							vector<cell_reference>tmp_cr = get_cells_in_merged_range(ws, val.reference());
+							for (auto cr_val : tmp_cr)
+							{
+								cr.push_back(cr_val);
+							}
+						}
+						else
+						{
+							cr.push_back(val.reference());
+						}
+						break;
+					case MODE::FIND_CELL_RET_VALUED_CELL:
+						cr.push_back(val.reference());
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}
@@ -204,12 +247,13 @@ vector<cell_reference> find_cell(worksheet& ws, string str, MODE mode = MODE::FI
 	return cr;
 }
 
-vector<cell_reference> find_cell(worksheet& ws, range_reference& rg, string str, MODE mode = MODE::FIND_CELL_PART_MATCH)
+vector<cell_reference> find_cell(worksheet& ws, range_reference& rg, string str,
+	MODE find_mode = MODE::FIND_CELL_PART_MATCH) //todo: change to private function
 {
 	vector<cell_reference> cr;
 	string tmp;
 
-	switch (mode)
+	switch (find_mode)
 	{
 	case MODE::FIND_CELL_PART_MATCH:
 		for (row_t row = rg.top_left().row(); row <= rg.bottom_right().row(); row++)
@@ -244,6 +288,34 @@ vector<cell_reference> find_cell(worksheet& ws, range_reference& rg, string str,
 	}
 
 	return cr;
+}
+
+vector<cell_reference> get_cells_in_merged_range(worksheet& ws, const cell_reference& tl_cell)
+{
+	vector<cell_reference> ret;
+	if (ws.cell(tl_cell).is_merged())
+	{
+		vector<range_reference>rg_merged = ws.merged_ranges();
+		for (auto const& val : rg_merged)
+		{
+			if (val.top_left() == tl_cell)
+			{
+				for (size_t r = 0; r < val.height(); r++)
+				{
+					for (size_t c = 0; c < val.width(); c++)
+					{
+						ret.push_back(cell_reference(tl_cell.column() + c, tl_cell.row() + r));
+					}
+				}
+				break;
+			}
+		}
+	}
+	else
+	{
+		ret.push_back(tl_cell);
+	}
+	return ret;
 }
 
 vector<string> find_filename(vector<string>& filename_list, string str)
@@ -343,8 +415,12 @@ vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
 				{
 					for (auto val1 : val.get_down_code()) //traverse node's down code
 					{
+						if (val1.is_empty())
+						{
+							continue;
+						}
 						bool is_unique_code = true; //unused code flag
-						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
+						if (has_node_in_node_list(val1, tmp)) //traverse current temp list
 						{
 							is_unique_code = false; //false if code is appeared in current node list
 						}
@@ -364,8 +440,12 @@ vector<list<node>> get_node_lists(node_code& code, vector<string>& files_list)
 				{
 					for (auto val1 : val.get_up_code()) //traverse node's up code
 					{
+						if (val1.is_empty())
+						{
+							continue;
+						}
 						bool is_unique_code = true; //unused code flag
-						if (is_found_node_in_node_list(val1, tmp)) //traverse current temp list
+						if (has_node_in_node_list(val1, tmp)) //traverse current temp list
 						{
 							is_unique_code = false; //false if code is appeared in current node list
 						}
@@ -419,7 +499,7 @@ bool is_equal_node_list(list<node>& node_list_1, list<node>& node_list_2)
 	}
 }
 
-bool is_found_node_in_node_list(node_code& code, list<node>& node_list)
+bool has_node_in_node_list(node_code& code, list<node>& node_list)
 {
 	return any_of(node_list.begin(), node_list.end(), [&code](auto node) {
 		return code == node.get_cur_code();
@@ -644,6 +724,18 @@ node::node(node_code& code, vector<string>& files_list)
 	node::worksheet_name = ws.title();
 	node::cur_code = code;
 }
+
+//node::node(worksheet& ws, cell_reference& cr,vector<string>&files_list)
+//{
+//	if (ws.cell(cr).has_value() && (ws.cell(1, cr.row()).has_value() || ws.cell(1, cr.row()).is_merged()))
+//	{
+//
+//	}
+//	node_code n("e111-11-11");
+//	node tmp(n,files_list);
+//	node::comment = tmp.comment;
+//
+//}
 
 bool node::has_up_code()
 {
