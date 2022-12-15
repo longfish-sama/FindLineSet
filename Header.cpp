@@ -318,6 +318,29 @@ vector<cell_reference> get_cells_in_merged_range(worksheet& ws, const cell_refer
 	return ret;
 }
 
+string get_merged_cell_value(worksheet& ws, vector<range_reference>& rg_merged, const column_t& col, const row_t& row)
+{
+	if (ws.cell(col, row).is_merged() && (!ws.cell(col, row).has_value()))
+	{
+		for (size_t i = 0; i < rg_merged.size(); i++)
+		{
+			if (rg_merged.at(i).top_left().column() <= col && col <= rg_merged.at(i).top_right().column() &&
+				rg_merged.at(i).top_left().row() <= row && row <= rg_merged.at(i).bottom_left().row())
+			{
+				return utf2str(ws.cell(rg_merged.at(i).top_left()).to_string());
+			}
+		}
+	}
+	else
+	{
+		return utf2str(ws.cell(col, row).to_string());
+	}
+
+	return "";
+}
+
+
+
 vector<string> find_filename(vector<string>& filename_list, string str)
 {
 	vector<string> res;
@@ -562,8 +585,8 @@ node_code::node_code(string code)
 	{
 		loc = code.substr(0, index_2);
 		number = code.substr(index_2 + 1);
-		if (number.back() < 0x30 || number.back() > 0x39)
-		{
+		if (number.back() < 0x30 || number.back() > 0x39) 
+		{//ignore last none-number char
 			number = number.substr(0, number.size() - 1);
 		}
 		for (size_t i = 0; i < loc.length(); i++)
@@ -576,6 +599,42 @@ node_code::node_code(string code)
 		loc = "";
 		number = "";
 		cout << "node_code construct error" << endl;
+	}
+}
+
+node_code::node_code(worksheet& ws, cell_reference& cr, vector<string>& files_list)
+{
+	if ((ws.cell(cr).has_value() || ws.cell(cr).is_merged()) &&
+		(ws.cell(1, cr.row()).has_value() || ws.cell(1, cr.row()).is_merged()))
+	{
+		vector<range_reference>rg_merged = ws.merged_ranges();
+		int row_idx = stoi(get_merged_cell_value(ws, rg_merged, 1, cr.row()));
+
+		int row_decrement = 0;
+		string tmp_row = "";
+		int col_idx = 1;
+		do
+		{
+			tmp_row = utf2str(ws.cell(cr.column(), cr.row() - row_decrement).to_string());
+			row_decrement++;
+		} while (tmp_row != "1" && tmp_row != "2" && tmp_row != "3" && tmp_row != "4" && tmp_row != "5" &&
+			tmp_row != "6" && tmp_row != "7" && tmp_row != "8" && tmp_row != "9" && tmp_row != "10" &&
+			cr.row() - row_decrement > 0);
+		if (!tmp_row.empty())
+		{
+			col_idx = stoi(tmp_row);
+		}
+
+		int num = (row_idx - 1) * 10 + col_idx;
+
+		string title = utf2str(ws.cell("A1").to_string());
+		if (size_t idx1 = title.find_first_of(" "); idx1 < title.length())
+		{
+			title = title.substr(0, idx1);
+		}
+
+		node_code::loc = title;
+		node_code::number = to_string(num);
 	}
 }
 
@@ -683,14 +742,14 @@ node::node(node_code& code, vector<string>& files_list)
 
 		if (tmp == "号")
 		{
-			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			string value = get_merged_cell_value(ws, rg_merged, cl, rw);
 			for_each(value.begin(), value.end(), [](char& c) {
 				if (c == '\n') { c = '+'; }});
 			node::cur_name = node::cur_name + " " + value;
 		}
 		else if (tmp == "上")
 		{
-			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			string value = get_merged_cell_value(ws, rg_merged, cl, rw);
 			if (value != "")
 			{
 				for_each(value.begin(), value.end(), [](char& c) {
@@ -701,7 +760,7 @@ node::node(node_code& code, vector<string>& files_list)
 		}
 		else if (tmp == "下")
 		{
-			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			string value = get_merged_cell_value(ws, rg_merged, cl, rw);
 			if (value != "")
 			{
 				for_each(value.begin(), value.end(), [](char& c) {
@@ -712,7 +771,7 @@ node::node(node_code& code, vector<string>& files_list)
 		}
 		else if (tmp == "注")
 		{
-			string value = node::get_cell_value(ws, rg_merged, cl, rw);
+			string value = get_merged_cell_value(ws, rg_merged, cl, rw);
 			for_each(value.begin(), value.end(), [](char& c) {
 				if (c == '\n') { c = '+'; }});
 			node::comment = node::comment + " " + value;
@@ -724,18 +783,6 @@ node::node(node_code& code, vector<string>& files_list)
 	node::worksheet_name = ws.title();
 	node::cur_code = code;
 }
-
-//node::node(worksheet& ws, cell_reference& cr,vector<string>&files_list)
-//{
-//	if (ws.cell(cr).has_value() && (ws.cell(1, cr.row()).has_value() || ws.cell(1, cr.row()).is_merged()))
-//	{
-//
-//	}
-//	node_code n("e111-11-11");
-//	node tmp(n,files_list);
-//	node::comment = tmp.comment;
-//
-//}
 
 bool node::has_up_code()
 {
@@ -755,26 +802,5 @@ void node::swap_up_down()
 {
 	swap(up_code, down_code);
 	swap(up_name, down_name);
-}
-
-string node::get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, column_t& col, row_t& row) const
-{
-	if (ws.cell(col, row).is_merged() && (!ws.cell(col, row).has_value()))
-	{
-		for (size_t i = 0; i < rg_merged.size(); i++)
-		{
-			if (rg_merged.at(i).top_left().column() <= col && col <= rg_merged.at(i).top_right().column() &&
-				rg_merged.at(i).top_left().row() <= row && row <= rg_merged.at(i).bottom_left().row())
-			{
-				return utf2str(ws.cell(rg_merged.at(i).top_left()).to_string());
-			}
-		}
-	}
-	else
-	{
-		return utf2str(ws.cell(col, row).to_string());
-	}
-
-	return "";
 }
 

@@ -23,7 +23,7 @@ void test()
 	worksheet ws;
 	try
 	{
-		vector<string>f = find_filename(filelist, "E418-R1");
+		vector<string>f = find_filename(filelist, "E418-Q3");
 		cout << f.at(0) << endl;
 		wb.load(f.at(0));
 		ws = wb.active_sheet();
@@ -50,7 +50,11 @@ void test()
 	list<node> l = get_single_node_list(code, filelist);
 	cout << list2str(l, MODE::LIST2STR_DETAIL) << endl;
 	get_node_lists(code, filelist);
-
+	for (auto c : res)
+	{
+		node_code nc(ws, c, filelist);
+		cout << nc.get_code() << endl;
+	}
 }
 
 int main(int argc, char* argv[])

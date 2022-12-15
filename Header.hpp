@@ -58,6 +58,7 @@ class node_code
 public:
 	node_code() = default;
 	explicit node_code(string code);
+	node_code(worksheet& ws, cell_reference& cr, vector<string>& files_list);
 	~node_code() = default;
 	void set_code(string set_loc, string set_number);
 	string get_code() const;
@@ -93,23 +94,17 @@ public:
 
 	/**
 	 * @brief use node code to construct a node
-	 * 
+	 *
 	 * @param code: class node_code
 	 * @param files_list
 	 */
 	node(node_code& code, vector<string>& files_list);
-
-	/**
-	 * @brief use cell to construct a node
-	 * 
-	 * @param ws: worksheet of the cell
-	 * @param cr: class cell_reference
-	 * @param files_list
-	 */
-	//node(worksheet& ws, cell_reference& cr, vector<string>& files_list);
 	~node() = default;
 	bool has_up_code();
 	bool has_down_code();
+	bool is_empty() {
+		return cur_name.empty() || cur_code.is_empty();
+	}
 	node_code& get_cur_code() {
 		return cur_code;
 	}
@@ -140,6 +135,12 @@ public:
 		return comment;
 	}
 	void swap_up_down();
+	/**
+	 * @brief .
+	 * 
+	 * @param other
+	 * @return 
+	 */
 	bool operator==(node const& other) const {
 		return (this->cur_code == other.cur_code) &&
 			(this->cur_name == other.cur_name) &&
@@ -147,17 +148,6 @@ public:
 			(this->up_name == other.up_name);
 	}
 private:
-	/**
-	 * @brief .
-	 *
-	 * @param ws
-	 * @param rg_merged
-	 * @param col
-	 * @param row
-	 * @return
-	 */
-	string get_cell_value(worksheet& ws, vector<range_reference>& rg_merged, column_t& col, row_t& row) const;
-	void get_node_info();
 	string workbook_name;
 	string worksheet_name;
 	string cur_name;
@@ -180,9 +170,11 @@ string utf2str(const string& str);
 
 vector<cell_reference> find_cell(worksheet& ws, string str, MODE find_mode, MODE return_mode);
 
-vector<cell_reference> find_cell(worksheet& ws, range_reference& range, string str, MODE find_mode, MODE return_mode);
+vector<cell_reference> find_cell(worksheet& ws, range_reference& range, string str, MODE find_mode);
 
 vector<cell_reference> get_cells_in_merged_range(worksheet& ws, const cell_reference& tl_cell);
+
+string get_merged_cell_value(worksheet& ws, vector<range_reference>& rg_merged, const column_t& col, const row_t& row);
 
 vector<string> find_filename(vector<string>& filename_list, string str);
 
