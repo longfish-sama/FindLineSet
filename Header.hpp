@@ -20,6 +20,7 @@
 #include <list>
 #include <xlnt/xlnt.hpp>
 #include <direct.h>
+#include "clipp.h"
 
 using namespace std;
 using namespace xlnt;
@@ -47,7 +48,8 @@ enum class MODE
 enum class MY_ERROR_TYPE
 {
 	CLASS_NODE_CONSTRUCT_ERROR,
-	CLASS_NODE_CODE_CONSTRUCT_ERROR
+	CLASS_NODE_CODE_CONSTRUCT_ERROR,
+	CLASS_NODE_CODE_MEMB_FUNC_ERROR
 };
 
 /**
@@ -57,6 +59,12 @@ class node_code
 {
 public:
 	node_code() = default;
+
+	/**
+	 * @brief .
+	 * 
+	 * @param code
+	 */
 	explicit node_code(string code);
 	node_code(worksheet& ws, cell_reference& cr, vector<string>& files_list);
 	~node_code() = default;
@@ -74,7 +82,8 @@ public:
 		return (loc.empty() || number.empty()) ? true : false;
 	}
 	bool operator==(const node_code& other) const {
-		return (this->loc == other.loc) && (this->number == other.number);
+		return (this->loc == other.loc) &&
+			((this->number == other.number) || (stoi(this->number) == stoi(other.number)));
 	}
 	bool operator!=(const node_code& other) const {
 		return (this->loc != other.loc) || (this->number != other.number);
@@ -137,9 +146,9 @@ public:
 	void swap_up_down();
 	/**
 	 * @brief .
-	 * 
+	 *
 	 * @param other
-	 * @return 
+	 * @return
 	 */
 	bool operator==(node const& other) const {
 		return (this->cur_code == other.cur_code) &&
@@ -188,3 +197,4 @@ bool has_node_in_node_list(node_code& code, list<node>& node_list);
 
 string list2str(list<node>& node_list, MODE mode);
 
+string list2str(vector<list<node>>& node_lists, MODE mode);

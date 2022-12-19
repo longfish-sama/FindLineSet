@@ -39,7 +39,7 @@ void get_folder_file(string folder, vector<string>& files)
 	}
 }
 
-void copy_folder(string source_folder, string dest_folder)
+void copy_folder(string source_folder, string dest_folder)//todo: delete then copy
 {
 	if (_access(dest_folder.c_str(), 0) != 0 && _mkdir(dest_folder.c_str()) != 0)
 	{
@@ -574,7 +574,60 @@ string list2str(list<node>& node_list, MODE mode = MODE::LIST2STR_BRIEF)
 	default:
 		break;
 	}
-	return ret;
+	return ret + "\n";
+}
+
+string list2str(vector<list<node>>& node_lists, MODE mode = MODE::LIST2STR_BRIEF)
+{
+	string retval = "";
+	switch (mode)
+	{
+	case MODE::LIST2STR_BRIEF:
+		for (size_t i = 0; i < node_lists.size(); i++)
+		{
+			retval = retval + "line" + to_string(i + 1) + "/" + to_string(node_lists.size()) + "\n";
+			for (auto val : node_lists.at(i))
+			{
+				retval = retval + val.get_cur_name() + " | " +
+					val.get_cur_code().get_code() + " | " +
+					val.get_comment() + "\n";
+			}
+			retval = retval + "\n";
+		}
+		break;
+
+	case MODE::LIST2STR_DETAIL:
+		for (size_t i = 0; i < node_lists.size(); i++)
+		{
+
+			retval = retval + "line" + to_string(i + 1) + "/" + to_string(node_lists.size()) + "\n";
+			for (auto val : node_lists.at(i))
+			{
+				string up = "";
+				string down = "";
+				for (auto const& up_str : val.get_up_name())
+				{
+					up = up + "↑" + up_str + " ";
+				}
+				for (auto const& down_str : val.get_down_name())
+				{
+					down = down + "↓" + down_str + " ";
+				}
+				retval = retval + val.get_cur_name() + " | " +
+					val.get_cur_code().get_code() + " | " +
+					val.get_comment() + " | " +
+					up + "| " +
+					down + "\n";
+			}
+			retval = retval + "\n";
+		}
+		break;
+
+	default:
+		break;
+	}
+
+	return retval;
 }
 
 node_code::node_code(string code)
@@ -585,20 +638,22 @@ node_code::node_code(string code)
 	{
 		loc = code.substr(0, index_2);
 		number = code.substr(index_2 + 1);
-		if (number.back() < 0x30 || number.back() > 0x39) 
-		{//ignore last none-number char
-			number = number.substr(0, number.size() - 1);
-		}
-		for (size_t i = 0; i < loc.length(); i++)
+		if (number.back() < 0x30 || number.back() > 0x39)
 		{
-			loc[i] = toupper(loc[i]);
+			number = number.substr(0, number.size() - 1); //ignore last none-number char
 		}
+		//for (size_t i = 0; i < loc.length(); i++)
+		//{
+		//	loc[i] = toupper(loc[i]);
+		//}
 	}
 	else
 	{
 		loc = "";
 		number = "";
+#ifdef TEST
 		cout << "node_code construct error" << endl;
+#endif 
 	}
 }
 
@@ -608,11 +663,30 @@ node_code::node_code(worksheet& ws, cell_reference& cr, vector<string>& files_li
 		(ws.cell(1, cr.row()).has_value() || ws.cell(1, cr.row()).is_merged()))
 	{
 		vector<range_reference>rg_merged = ws.merged_ranges();
-		int row_idx = stoi(get_merged_cell_value(ws, rg_merged, 1, cr.row()));
 
+		//get row index
+		int row_idx = 0;
+		try
+		{
+			row_idx = stoi(get_merged_cell_value(ws, rg_merged, 1, cr.row()));
+		}
+		catch (const invalid_argument& ex) //error handle
+		{
+			cout << "node_code construct invalid_argument: " << ex.what() << endl;
+			row_idx = 0;
+			throw MY_ERROR_TYPE::CLASS_NODE_CODE_CONSTRUCT_ERROR;
+		}
+		catch (const out_of_range& ex) //error handle
+		{
+			cout << "node_code construct out_of_range: " << ex.what() << endl;
+			row_idx = 0;
+			throw MY_ERROR_TYPE::CLASS_NODE_CODE_CONSTRUCT_ERROR;
+		}
+
+		//get column index
 		int row_decrement = 0;
 		string tmp_row = "";
-		int col_idx = 1;
+		int col_idx = 0;
 		do
 		{
 			tmp_row = utf2str(ws.cell(cr.column(), cr.row() - row_decrement).to_string());
@@ -622,19 +696,50 @@ node_code::node_code(worksheet& ws, cell_reference& cr, vector<string>& files_li
 			cr.row() - row_decrement > 0);
 		if (!tmp_row.empty())
 		{
+			try
+			{
 			col_idx = stoi(tmp_row);
+			}
+			catch (const invalid_argument& ex) //error handle
+			{
+				cout << "node_code construct invalid_argument: " << ex.what() << endl;
+				col_idx = 0;
+				throw MY_ERROR_TYPE::CLASS_NODE_CODE_CONSTRUCT_ERROR;
+			}
+			catch (const out_of_range& ex) //error handle
+			{
+				cout << "node_code construct out_of_range: " << ex.what() << endl;
+				col_idx = 0;
+				throw MY_ERROR_TYPE::CLASS_NODE_CODE_CONSTRUCT_ERROR;
+			}
+
+		}
+		else
+		{
+			col_idx = 0;
 		}
 
-		int num = (row_idx - 1) * 10 + col_idx;
+		//get number part
+		if (row_idx == 0 || col_idx == 0)
+		{
+			node_code::number = "";
+		}
+		else
+		{
+			node_code::number = to_string((row_idx - 1) * 10 + col_idx);
+		}
 
+		//get loc part
 		string title = utf2str(ws.cell("A1").to_string());
 		if (size_t idx1 = title.find_first_of(" "); idx1 < title.length())
 		{
 			title = title.substr(0, idx1);
 		}
-
+		else
+		{
+			title = "";
+		}
 		node_code::loc = title;
-		node_code::number = to_string(num);
 	}
 }
 
@@ -663,7 +768,25 @@ string node_code::get_code() const
 
 int node_code::get_row_idx() const
 {
-	int tmp = atoi(number.c_str());
+	int tmp = 0;
+
+	try
+	{
+		tmp = stoi(number);
+	}
+	catch (const invalid_argument& ex) //error handle
+	{
+		cout << "node_code::get_row_idx() invalid_argument: " << ex.what() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		return 0;
+	}
+	catch (const out_of_range& ex) //error handle
+	{
+		cout << "node_code::get_row_idx() out_of_range: " << ex.what() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		return 0;
+	}
+
 	if (tmp % 10 == 0)
 	{
 		return tmp / 10;
@@ -676,7 +799,25 @@ int node_code::get_row_idx() const
 
 int node_code::get_col_idx() const
 {
-	int tmp = atoi(number.c_str());
+	int tmp = 0;
+
+	try
+	{
+		tmp = stoi(number);
+	}
+	catch (const invalid_argument& ex) //error handle
+	{
+		cout << "node_code::get_row_idx() invalid_argument: " << ex.what() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		return 0;
+	}
+	catch (const out_of_range& ex) //error handle
+	{
+		cout << "node_code::get_row_idx() out_of_range: " << ex.what() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		return 0;
+	}
+
 	if (tmp % 10 == 0)
 	{
 		return 10;
@@ -685,7 +826,6 @@ int node_code::get_col_idx() const
 	{
 		return tmp % 10;
 	}
-
 }
 
 
@@ -693,24 +833,32 @@ node::node(node_code& code, vector<string>& files_list)
 {
 	//use node code to find file path
 	vector<string> file = find_filename(files_list, code.get_loc());
-	if (file.empty() || file.size() > 1)
+	if (file.size() > 1) //error handle
 	{
-		cout << "multi or none file find: " << code.get_loc() << endl;
-		for (size_t i = 0; i < file.size(); i++)
+		cerr << "node construct: multi file found: " << code.get_loc() << endl;
+		for (auto val : file)
 		{
-			cout << file[i] << endl;
+			cerr << val << endl;
 		}
 		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
 	}
+	if (file.empty()) //error handle
+	{
+		cerr << "node construct: none file found: " << code.get_loc() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
+	}
+
 	//open file
 	workbook wb;
 	try
 	{
 		wb.load(file[0]);
 	}
-	catch (const xlnt::exception& exp)
+	catch (const xlnt::exception& exp) //error handle
 	{
 		cerr << exp.what() << endl;
+		cerr << "node construct: cannot load workbook: " << file.at(0) << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
 	}
 	auto ws = wb.active_sheet();
 	auto rg_merged = ws.merged_ranges();
@@ -719,17 +867,29 @@ node::node(node_code& code, vector<string>& files_list)
 	range_reference rg_col(1, 2, 1, ws.highest_row_or_props());
 	vector<cell_reference> row_idx = find_cell(ws, rg_col, to_string(code.get_row_idx()), MODE::FIND_CELL_ALL_MATCH);
 	vector<cell_reference> row_idx_next = find_cell(ws, rg_col, to_string(code.get_row_idx() + 1), MODE::FIND_CELL_ALL_MATCH);
-	if (row_idx.empty() || row_idx.size() > 1)
+	if (row_idx.size() > 1) //error handle
 	{
-		cout << "multi or none cell find: " << code.get_row_idx() << endl;
+		cerr << "node construct: multi row_idx found: " << code.get_code() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
+	}
+	if (row_idx.empty()) //error handle
+	{
+		cerr << "node construct: none row_idx found: " << code.get_code() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
 	}
 
 	//find column index in selected row
 	range_reference rg_row(row_idx[0].column_index() + 1, row_idx[0].row(), ws.highest_column_or_props(), row_idx[0].row());
 	vector<cell_reference> col_idx = find_cell(ws, rg_row, to_string(code.get_col_idx()), MODE::FIND_CELL_ALL_MATCH);
-	if (col_idx.empty() || col_idx.size() > 1)
+	if (col_idx.size() > 1) //error handle
 	{
-		cout << "multi or none cell find: " << code.get_col_idx() << endl;
+		cerr << "node construct: multi column_idx found: " << code.get_code() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
+	}
+	if (col_idx.empty()) //error handle
+	{
+		cerr << "node construct: none column_idx found: " << code.get_code() << endl;
+		throw MY_ERROR_TYPE::CLASS_NODE_CONSTRUCT_ERROR;
 	}
 
 	//get node info
