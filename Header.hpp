@@ -66,7 +66,7 @@ public:
 	 * @param code
 	 */
 	explicit node_code(string code);
-	node_code(worksheet& ws, cell_reference& cr, vector<string>& files_list);
+	node_code(worksheet& ws, cell_reference& cr);
 	~node_code() = default;
 	void set_code(string set_loc, string set_number);
 	string get_code() const;
