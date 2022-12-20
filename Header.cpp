@@ -41,11 +41,24 @@ void get_folder_file(string folder, vector<string>& files)
 
 void copy_folder(string source_folder, string dest_folder)//todo: delete then copy
 {
+	//create folder
 	if (_access(dest_folder.c_str(), 0) != 0 && _mkdir(dest_folder.c_str()) != 0)
 	{
 		return;
 	}
-
+	
+	//delete old file
+	vector<string>old_files;
+	get_folder_file(dest_folder, old_files);
+	for (auto val : old_files)
+	{
+		if (remove(val.c_str()) != 0)
+		{
+			cout << WARNING_COUT << "fail to delete file: " << val << endl;
+		}
+	}
+	
+	//change file name
 	vector<string> source_files;
 	vector<string> dest_files;
 	get_folder_file(source_folder, source_files);
@@ -57,11 +70,11 @@ void copy_folder(string source_folder, string dest_folder)//todo: delete then co
 			string tmp = "";
 			for (auto c : item)
 			{
-				if (c == '/' || c == ':')
+				if (c == '/' || c == ':') //replace illegal char
 				{
 					c = '-';
 				}
-				if (c >= 0 && c <= 127)
+				if (c >= 0 && c <= 127) //ignore none ASCII char
 				{
 					tmp = tmp + c;
 				}
@@ -77,6 +90,7 @@ void copy_folder(string source_folder, string dest_folder)//todo: delete then co
 #endif
 	}
 
+	//copy
 	for (size_t i = 0; i < dest_files.size(); i++)
 	{
 		if (!dest_files.at(i).empty())
@@ -577,10 +591,10 @@ string list2str(list<node>& node_list, MODE mode = MODE::LIST2STR_BRIEF)
 	return ret + "\n";
 }
 
-string list2str(vector<list<node>>& node_lists, MODE mode = MODE::LIST2STR_BRIEF)
+string list2str(vector<list<node>>& node_lists, MODE return_mode = MODE::LIST2STR_BRIEF)
 {
 	string retval = "";
-	switch (mode)
+	switch (return_mode)
 	{
 	case MODE::LIST2STR_BRIEF:
 		for (size_t i = 0; i < node_lists.size(); i++)
