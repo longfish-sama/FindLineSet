@@ -20,10 +20,10 @@ node_code::node_code(string code)
 	{
 		loc = code.substr(0, index_2);
 		number = code.substr(index_2 + 1);
-		if (number.back() < 0x30 || number.back() > 0x39)
-		{
-			number = number.substr(0, number.size() - 1); //ignore last none-number char
-		}
+		//if (number.back() < 0x30 || number.back() > 0x39)
+		//{
+		//	number = number.substr(0, number.size() - 1); //ignore last none-number char
+		//}
 		//for (size_t i = 0; i < loc.length(); i++)
 		//{
 		//	loc[i] = toupper(loc[i]);
@@ -34,7 +34,7 @@ node_code::node_code(string code)
 		loc = "";
 		number = "";
 #ifdef TEST
-		cout << "node_code construct error" << endl;
+		cout << INFO_COUT << "node_code construct error" << endl;
 #endif 
 	}
 }
@@ -46,7 +46,7 @@ node_code::node_code(string code)
  * @param cr
  * @param files_list
  */
-node_code::node_code(worksheet& ws, cell_reference& cr, vector<string>& files_list)
+node_code::node_code(worksheet& ws, cell_reference& cr)
 {
 	if ((ws.cell(cr).has_value() || ws.cell(cr).is_merged()) &&
 		(ws.cell(1, cr.row()).has_value() || ws.cell(1, cr.row()).is_merged()))
@@ -137,10 +137,10 @@ void node_code::set_code(string set_loc, string set_number)
 {
 	loc = set_loc;
 	number = set_number;
-	for (size_t i = 0; i < loc.length(); i++)
-	{
-		loc[i] = toupper(loc[i]);
-	}
+	//for (size_t i = 0; i < loc.length(); i++)
+	//{
+	//	loc[i] = toupper(loc[i]);
+	//}
 }
 
 string node_code::get_code() const
@@ -166,13 +166,13 @@ int node_code::get_row_idx() const
 	catch (const invalid_argument& ex) //error handle
 	{
 		cout << "node_code::get_row_idx() invalid_argument: " << ex.what() << endl;
-		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		//throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
 		return 0;
 	}
 	catch (const out_of_range& ex) //error handle
 	{
 		cout << "node_code::get_row_idx() out_of_range: " << ex.what() << endl;
-		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		//throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
 		return 0;
 	}
 
@@ -197,13 +197,13 @@ int node_code::get_col_idx() const
 	catch (const invalid_argument& ex) //error handle
 	{
 		cout << "node_code::get_row_idx() invalid_argument: " << ex.what() << endl;
-		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		//throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
 		return 0;
 	}
 	catch (const out_of_range& ex) //error handle
 	{
 		cout << "node_code::get_row_idx() out_of_range: " << ex.what() << endl;
-		throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
+		//throw MY_ERROR_TYPE::CLASS_NODE_CODE_MEMB_FUNC_ERROR;
 		return 0;
 	}
 
