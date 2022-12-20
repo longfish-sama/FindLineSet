@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Classes.cpp" />
     <ClCompile Include="Header.cpp" />
     <ClCompile Include="Untitled-1.cpp" />
   </ItemGroup>
