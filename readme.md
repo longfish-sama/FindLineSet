@@ -1,4 +1,6 @@
-# 配置
+# 开发配置
+
+0. VS2019 Windows10 C++17
 
 1. 引用库下载并解压：[clipp](https://github.com/muellan/clipp/releases/tag/v1.2.3)，[xlnt](https://github.com/tfussell/xlnt/releases/tag/v1.5.0)
 
