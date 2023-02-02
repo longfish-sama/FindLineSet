@@ -20,7 +20,6 @@
 #include <list>
 #include <xlnt/xlnt.hpp>
 #include <direct.h>
-#include "clipp.h"
 
 using namespace std;
 using namespace xlnt;

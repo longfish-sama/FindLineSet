@@ -6,6 +6,13 @@
  */
 
 #include "Header.hpp"
+#include "clipp.h"
+#include "operate_config.h"
+#include <chrono>
+#include <cstdlib>
+#include <cstdio>
+#include <iostream>
+#include <string>
 
 using namespace std;
 using namespace xlnt;
@@ -14,7 +21,7 @@ void test()
 {
 	vector<string> filelist;
 	string work_folder = "data";
-	string source_folder = "D:/chend/OneDrive/工/202211培训/04-线架"; //todo: change here
+	string source_folder = "D:/chendangdang/OneDrive/工/202211培训/04-线架"; //todo: change here
 
 	copy_folder(source_folder, work_folder);
 
@@ -71,11 +78,35 @@ int main(int argc, char* argv[])
 
 	vector<string> codes_to_find;
 	vector<string> names_to_find;
-	MODE find_cell_match_mode = MODE::FIND_CELL_PART_MATCH;
 	MODE list2str_mode = MODE::LIST2STR_BRIEF;
 	string source_data_folder;
+	string separate_1to3_tmp;
 	string work_data_folder = "data";
+	const char config_filepath[] = "config";
 	bool require_refresh = false;
+	time_t last_update_time;
+	time_t cur_update_time = chrono::system_clock::to_time_t(chrono::system_clock::now());
+
+	//read config file
+	try
+	{
+		ConfigHandle.init(config_filepath);
+	}
+	catch (const operatorconfig::File_not_found &ex)
+	{
+		cerr << ERROR_COUT << "config file not exist: " << ex.filename << endl;
+		return -1;
+	}
+	try
+	{
+		source_data_folder = ConfigHandle.read<string>("cource_data_folder");
+		separate_1to3_tmp = ConfigHandle.read<string>("separate_1to3");
+		last_update_time = ConfigHandle.read<time_t>("last_update_time");
+	}
+	catch (const operatorconfig::Key_not_found &ex)
+	{
+		cerr << WARNING_COUT << "key pair not exist: " << ex.key << endl;
+	}
 
 	auto cli = (
 		clipp::required("-code") & clipp::values("codes to find", codes_to_find) |
@@ -89,6 +120,7 @@ int main(int argc, char* argv[])
 	if (!clipp::parse(argc, argv, cli))
 	{
 		cout << clipp::make_man_page(cli, argv[0]) << endl;
+		return -1;
 	}
 
 	if (require_refresh)
