@@ -78,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\chend\Documents\code\clipp-1.2.3\include;D:\chend\Documents\code\xlnt-1.5.0\include;D:\chend\Documents\code\cppconfig-master;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\chend\Documents\code\2\build\source\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\chendangdang\Documents\code\cppconfig-master;D:\chendangdang\Documents\code\clipp-1.2.3\include;D:\chendangdang\Documents\code\xlnt-1.5.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\chendangdang\Documents\code\2\build\source\Debug;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
@@ -150,11 +150,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cppconfig-master\operate_config.cpp" />
     <ClCompile Include="Classes.cpp" />
     <ClCompile Include="Header.cpp" />
     <ClCompile Include="Untitled-1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\clipp-1.2.3\include\clipp.h" />
+    <ClInclude Include="..\cppconfig-master\operate_config.h" />
     <ClInclude Include="Header.hpp" />
   </ItemGroup>
   <ItemGroup>

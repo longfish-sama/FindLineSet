@@ -24,9 +24,18 @@
     <ClCompile Include="Classes.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="..\cppconfig-master\operate_config.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.hpp">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cppconfig-master\operate_config.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="..\clipp-1.2.3\include\clipp.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
