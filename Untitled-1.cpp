@@ -114,19 +114,19 @@ int main(int argc, char* argv[])
 	{
 		cerr << WARNING_COUT << "key pair not exist: " << ex.key << endl;
 	}
-
+	//update time
 	ConfigHandle.add("last_update_time", cur_update_time);
 	ofstream out_config;
 	out_config.open(config_filepath);
 	out_config << ConfigHandle;
 	out_config.close();
-
+	//cal duration
 	time_t duration_sec = duration_hour * 60 * 60;
 	if (cur_update_time - last_update_time >= duration_sec)
 	{
 		require_refresh = true;
 	}
-
+	//get separator list
 	istringstream iss(separate_1to3_tmp);
 	string tmp = "";
 	while (getline(iss, tmp, '+'))
@@ -151,6 +151,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	//process start
 	if (require_refresh)
 	{
 		copy_folder(source_data_folder, work_data_folder);
