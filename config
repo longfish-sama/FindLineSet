@@ -1,10 +1,4 @@
-#源文件夹路径
-#请注意修改
-source_data_folder=D:/chend/OneDrive/工/202211培训/04-线架
-
-#自动同步间隔，单位：小时
-duration=4
-
-#上次同步数据的时间
-#请勿手动修改
-last_updtae_time=0
+duration = 6
+last_update_time = 1675429991
+separate_1to3 = 415+569+96
+source_data_folder = D:/chend/OneDrive/工/202211培训/04-线架

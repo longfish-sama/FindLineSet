@@ -21,7 +21,7 @@ void test()
 {
 	vector<string> filelist;
 	string work_folder = "data";
-	string source_folder = "D:/chendangdang/OneDrive/工/202211培训/04-线架"; //todo: change here
+	string source_folder = "D:/chend/OneDrive/工/202211培训/04-线架"; //todo: change here
 
 	copy_folder(source_folder, work_folder);
 
@@ -79,35 +79,63 @@ int main(int argc, char* argv[])
 	vector<string> codes_to_find;
 	vector<string> names_to_find;
 	MODE list2str_mode = MODE::LIST2STR_BRIEF;
-	string source_data_folder;
-	string separate_1to3_tmp;
 	string work_data_folder = "data";
 	const char config_filepath[] = "config";
 	bool require_refresh = false;
-	time_t last_update_time;
-	time_t cur_update_time = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	const time_t cur_update_time = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	//var define in file or by user
+	string source_data_folder = "";
+	string separate_1to3_tmp = "";
+	vector<string> separate_1to3_list;
+	time_t last_update_time = 0;
+	unsigned int duration_hour = 6;
 
 	//read config file
 	try
 	{
 		ConfigHandle.init(config_filepath);
 	}
-	catch (const operatorconfig::File_not_found &ex)
+	catch (const operatorconfig::File_not_found& ex)
 	{
 		cerr << ERROR_COUT << "config file not exist: " << ex.filename << endl;
 		return -1;
 	}
+
+	//set parameter base on config file
+	//lower priority
 	try
 	{
-		source_data_folder = ConfigHandle.read<string>("cource_data_folder");
+		source_data_folder = ConfigHandle.read<string>("source_data_folder");
 		separate_1to3_tmp = ConfigHandle.read<string>("separate_1to3");
 		last_update_time = ConfigHandle.read<time_t>("last_update_time");
+		duration_hour = ConfigHandle.read<int>("duration");
 	}
-	catch (const operatorconfig::Key_not_found &ex)
+	catch (const operatorconfig::Key_not_found& ex)
 	{
 		cerr << WARNING_COUT << "key pair not exist: " << ex.key << endl;
 	}
 
+	ConfigHandle.add("last_update_time", cur_update_time);
+	ofstream out_config;
+	out_config.open(config_filepath);
+	out_config << ConfigHandle;
+	out_config.close();
+
+	time_t duration_sec = duration_hour * 60 * 60;
+	if (cur_update_time - last_update_time >= duration_sec)
+	{
+		require_refresh = true;
+	}
+
+	istringstream iss(separate_1to3_tmp);
+	string tmp = "";
+	while (getline(iss, tmp, '+'))
+	{
+		separate_1to3_list.push_back(tmp);
+	}
+
+	//paste parameter
+	//higher priority
 	auto cli = (
 		clipp::required("-code") & clipp::values("codes to find", codes_to_find) |
 		clipp::required("-name") & clipp::values("names to find", names_to_find),
