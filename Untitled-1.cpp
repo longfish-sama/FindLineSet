@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 	out_config << ConfigHandle;
 	out_config.close();
 	//cal duration
-	time_t duration_sec = duration_hour * 60 * 60;
+	const time_t duration_sec = duration_hour * 60 * 60;
 	if (cur_update_time - last_update_time >= duration_sec)
 	{
 		require_refresh = true;
